@@ -1,4 +1,4 @@
-L'objectif du projet est de collecter des informations concernant les livres en vente sur le site "http://books.toscrape.com/". 
+L'objectif du projet est de collecter des informations concernant les livres en vente sur le site  "http://books.toscrape.com/". 
 
 
 
