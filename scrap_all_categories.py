@@ -5,7 +5,6 @@ import urllib
 import csv
 
 
-
 # 1/ fonction avec tout les liens de toutes les catégories
 def full_liens_category():
     #lien du site
@@ -33,11 +32,9 @@ categories = full_liens_category()
 
 # 2/ fonction avec tout les liens des livres d'UNE catégorie
 def full_liens_book(url_categorie):
+# création liste des urls des livres
     list_urls = []
-    # boucle afin d'extraire toutes les liens des livres de toute les catégories
-    # for url in categories:
     response = requests.get(url_categorie)
-    # création liste des urls des livres
     soup = BeautifulSoup(response.text, "lxml")
     titre_categorie = soup.find_all("h1")[0].get_text()
     liens = soup.find_all("div", class_="image_container")
@@ -50,18 +47,17 @@ def full_liens_book(url_categorie):
     return list_urls, titre_categorie
 
 
-# 3/ fonction avec toutes les informations de tout les livres + csv images + csv categorie
+# 3/ fonction avec toutes les informations de tout les livres + csv images
 def full_informations_book(url_book):
     list_informations = []
-    # for urls in list_urls:
     response = requests.get(url_book)
     if response.ok:
-        soup = BeautifulSoup(response.text, "lxml")
+        soup = BeautifulSoup(response.text, "html.parser")
+        # soup.encode("utf-8")
         universal_product_code = soup.find_all("tr")[0].td.get_text()
         title = soup.find_all("h1")[0].get_text()
         titles = title.replace(":", " ").replace("*", " ").replace("?", " ").replace('\"', " ")
-
-        price_including_tax = soup.find_all("tr")[3].td.get_text()
+        price_including_tax = soup.find_all("tr")[3].td.contents[0]
         price_excluding_tax = soup.find_all("tr")[2].td.get_text()
         number_available = soup.find_all("tr")[5].td.get_text()
         product_description = soup.find_all("p")[3].get_text()
@@ -88,61 +84,47 @@ def full_informations_book(url_book):
             image_url_entier
             ]
 
-
     return list_informations
 
 
-
-
+# 4/ fonction Boucle + CSV
 def get_datas_book():
-
-# création dictionnaire vide
-#     tableau_toutes_catagories = {}
 # boucle sur toute les catégories pour UNE categorie
     for category in categories:
+        while True:
+            response = requests.get(category)
+            soup = BeautifulSoup(response.text, "lxml")
+            next_page = soup.select_one("li.next>a")
+            if next_page:
+                next_page_url = next_page.get("href")
+                category = urljoin(category, next_page_url)
+
+            else:
+
+                break
+
         # variable qui récupere les liens des livres pour une catégorie
         list_urls, titre_categorie = full_liens_book(category)
         print()
         print(category)
+        # CSV pour en_tete
         en_tete = ["liens", "universal_product_code", "title", "price_including_tax", "price_excluding_tax",
-                                       "number_available", "product_description", "category", "review_rating", "image_url"]
+                   "number_available", "product_description", "category", "review_rating", "image_url"]
         chemin_fichier = "testcsv/" + titre_categorie + ".csv"
         with open(chemin_fichier, 'w', encoding="utf-8", newline='') as csv_file:
             writer = csv.writer(csv_file, delimiter=",")
             writer.writerow(en_tete)
+        # boucle sur tout les liens des livres pour UN livre
         for url in list_urls:
             list_informations = full_informations_book(url)
             print(list_informations)
+        # CSV pour toute les informations des livres pour chaque catégorie
             with open(chemin_fichier, 'a', encoding="utf-8", newline='') as csv_file:
                 writer = csv.writer(csv_file, delimiter=",")
                 writer.writerow(list_informations)
 
 
 get_datas_book()
-
-
-
-
-
-
-#
-# while True:
-#     response = requests.get(categories)
-#     soup = BeautifulSoup(response.text, "lxml")
-#     footer = soup.select_one("li.current")
-#     print(footer.text.strip())
-#     next_page = soup.select_one("li.next>a")
-#     if next_page:
-#         next_page_url = next_page.get("href")
-#         url = urljoin(categories, next_page_url)
-#     else:
-#
-#         break
-
-
-
-
-
 
 
 
