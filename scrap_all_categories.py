@@ -1,9 +1,9 @@
+import os
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 import urllib
 import csv
-
 
 # 1/ fonction avec tout les liens de toutes les catégories
 def full_liens_category():
@@ -49,26 +49,28 @@ def full_informations_book(url_book):
     list_informations = []
     response = requests.get(url_book)
     if response.ok:
-        soup = BeautifulSoup(response.text, "html.parser")
-        # soup.encode("utf-8")
+        soup = BeautifulSoup(response.content, "html.parser")
+        soup.encode("utf-8")
         universal_product_code = soup.find_all("tr")[0].td.get_text()
         title = soup.find_all("h1")[0].get_text()
-        titles = title.replace(":", " ").replace("*", " ").replace("?", " ")\
-            .replace('\"', " ").replace(",", " ").replace("/", " ").replace(".", " ")
-
+        titles = title.replace(":", " ").replace("*", " ").replace("?", " ").replace(",", " ")\
+            .replace("/", " ").replace(".", " ")\
+            .replace("<", " ").replace(">", " ")\
+            .replace('\"', ' ').replace("\'", " ")
         price_including_tax = soup.find_all("tr")[3].td.contents[0]
         price_excluding_tax = soup.find_all("tr")[2].td.get_text()
         number_available = soup.find_all("tr")[5].td.get_text()
         product_description = soup.find_all("p")[3].get_text()
+        product_descriptions = product_description.replace(":", " ").replace("*", " ").replace("?", " ") \
+            .replace('\"', " ").replace(",", " ").replace("/", " ").replace(".", " ").replace("-", " ")
         categorie = soup.find_all("a")[3].get_text()
-
         review_rating = soup.find_all("tr")[6].td.get_text()
         images = soup.find_all("img")[0]
         src = images.get('src')
         image_url_entier = requests.compat.urljoin(url_book, src)
         img = requests.get(image_url_entier).content
 
-        with open("testimages/" + categorie + " " + titles + ".jpg", 'wb') as f:
+        with open("images/" + categorie + " " + titles + ".jpg", 'wb') as f:
             f.write(img)
 
         list_informations = [
@@ -78,7 +80,7 @@ def full_informations_book(url_book):
             price_including_tax,
             price_excluding_tax,
             number_available,
-            product_description,
+            product_descriptions,
             categorie,
             review_rating,
             image_url_entier
@@ -87,6 +89,7 @@ def full_informations_book(url_book):
     return list_informations
 
 
+# 4/ fonction pagination
 def pagination():
     # création liste vide qui aura comme contenue les urls avec pagination
     pagination_list = []
@@ -109,10 +112,7 @@ def pagination():
     return pagination_list
 
 
-
-
-
-# 4/ fonction Boucle + CSV
+# 5/ fonction Boucle + CSV
 def get_datas_book():
     # boucle sur toute les catégories pour UNE categorie
     for category in pagination_lists:
@@ -123,15 +123,16 @@ def get_datas_book():
         # CSV pour en_tete
         en_tete = ["liens", "universal_product_code", "title", "price_including_tax", "price_excluding_tax",
                    "number_available", "product_description", "category", "review_rating", "image_url"]
-        chemin_fichier = "testcsv/" + titre_categorie + ".csv"
-        with open(chemin_fichier, 'w', encoding="utf-8", newline='') as csv_file:
-            writer = csv.writer(csv_file, delimiter=",")
-            writer.writerow(en_tete)
+        chemin_fichier = "csv/" + titre_categorie + ".csv"
+        if not os.path.exists(chemin_fichier):
+            with open(chemin_fichier, 'w', encoding="utf-8", newline='') as csv_file:
+                writer = csv.writer(csv_file, delimiter=",")
+                writer.writerow(en_tete)
         # boucle sur tout les liens des livres pour UN livre
         for url in list_urls:
             list_informations = full_informations_book(url)
             print(list_informations)
-           # CSV pour toute les informations des livres pour chaque catégorie
+           # CSV pour les informations des livres pour chaque catégorie
             with open(chemin_fichier, 'a', encoding="utf-8", newline='') as csv_file:
                 writer = csv.writer(csv_file, delimiter=",")
                 writer.writerow(list_informations)
@@ -142,20 +143,6 @@ pagination_lists = pagination()
 get_datas_book()
 
 
-# list_of_category_url = []
-# for category in categories:
-#     list_of_category_url.append(category)
-#     response = requests.get(category)
-#     soup = BeautifulSoup(response.text, "lxml")
-#     next_page = soup.select_one("li.next>a")
-#     if next_page:
-#         next_page_url = next_page.get("href")
-#         category = urljoin(category, next_page_url)
-#         list_of_category_url.append(category)
-#
-#     for category_page_url in list_of_category_url:
-#         list_urls, titre_categorie = full_liens_book(category_page_url)
-#         print(category_page)
 
 
 
@@ -171,41 +158,5 @@ get_datas_book()
 
 
 
-
-
-
-
-
-
-
-
-
-# list_of_category_url = []
-# for category in categories:
-#     list_of_category_url.append(category)
-#     response = requests.get(category)
-#     soup = BeautifulSoup(response.text, "lxml")
-#     next_page = soup.select_one("li.next>a")
-#     if next_page:
-#         next_page_url = next_page.get("href")
-#         category = urljoin(category, next_page_url)
-#         list_of_category_url.append(category)
-#
-#     print(list_of_category_url)
-#     list_urls, titre_categorie = full_liens_book(category)
-#     print(list_urls)
-
-# while True:
-#     print(url)
-#     response = requests.get(url)
-#     soup = BeautifulSoup(response.text, "lxml")
-#     next_page = soup.select_one("li.next>a")
-#     if next_page:
-#         next_page_url = next_page.get("href")
-#         url = urljoin(url, next_page_url)
-#
-#     else:
-#
-#         break
 
 

@@ -11,7 +11,7 @@ La même chose devrait être faite pour l'image de chaque livre.
 
 ## Cloner le référentiel:
 
-`git clone >  https://github.com/boukaii/p2-scraping_books.git`
+`git clone https://github.com/boukaii/p2-scraping_books.git`
 
 
 ## Créez l'environnement virtuel:
@@ -23,9 +23,9 @@ La même chose devrait être faite pour l'image de chaque livre.
 
 ## Activez l'environnement virtuel:
 
-`Pour macOS et Linux > env/bin/activate`
+Pour macOS et Linux:  `env/bin/activate`
 
-`Pour Windows > env\Scripts\activate`
+Pour Windows:  `env\Scripts\activate`
 
 
 ## Installez les packages :
@@ -35,17 +35,8 @@ La même chose devrait être faite pour l'image de chaque livre.
 
 
 
-## Voici a quoi correspond le contenu pour chacun des scrips:
+## Voici a quoi correspond le contenu du scrip:
 
-
-
-
-`scrap_book.py:`
-Ce script récupère toutes les informations d'un seul livre sur une page spécifique.
-
-
-`scrap_category.py:`
-Ce script récupère toutes les informations sur tous les livres d'une catégorie spécifique.
 
 
 `scrap_all_categories.py:`
