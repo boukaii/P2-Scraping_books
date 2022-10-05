@@ -5,31 +5,31 @@ from urllib.parse import urljoin
 import urllib
 import csv
 
+
 # 1/ fonction avec tout les liens de toutes les catégories
 def full_liens_category():
-    #lien du site
+    # création de la liste des url
+    categories = []
+    # lien du site
     url = "http://books.toscrape.com/"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "lxml")
     liens = soup.find_all("ul", attrs={"class": "nav nav-list"})
     for lien in liens:
-        # création de la liste des url
-        categories = []
         partie = lien.find("li").find_all("a")
         for b in partie:
-            # print(b["href"])
             if b["href"] != "catalogue/category/books_1/index.html":
                 lien_relatif = b["href"]
                 #additioner url et lien_relatif afin d'obtenir un lien URL complet
                 lien_entier = urllib.parse.urljoin(url, lien_relatif)
                 categories.append(lien_entier)
 
-        return categories
+    return categories
 
 
-# 2/ fonction avec tout les liens des livres d'UNE catégorie
+# 2/ fonction avec tout les liens des livres
 def full_liens_book(url_categorie):
-# création liste des urls des livres
+    # création liste des urls des livres
     list_urls = []
     response = requests.get(url_categorie)
     soup = BeautifulSoup(response.text, "lxml")
@@ -44,7 +44,7 @@ def full_liens_book(url_categorie):
     return list_urls, titre_categorie
 
 
-# 3/ fonction avec toutes les informations de tout les livres + csv images
+# 3/ fonction avec toutes les informations + csv images
 def full_informations_book(url_book):
     list_informations = []
     response = requests.get(url_book)
@@ -97,10 +97,10 @@ def pagination():
     for categorie in categories:
         response = requests.get(categorie)
         soup = BeautifulSoup(response.text, "lxml")
-        # condition: SI il y a le "text" page .. sur..
+        # condition: SI il y a le "text" page sur la page
         if soup.find("li", class_="current"):
             next_page = soup.find("li", class_="current").text.strip()
-            # variable qui récupère le dernier élèment de la chaine de character
+            # variable qui récupère le dernier élèment de la chaine de character qui permet de savoir le nb de pages total
             nb_page = next_page[len(next_page)-1]
             # création des liens pour chaque page de la catégorie en cours(catégorie avec pagination)
             for i in range(1, int(nb_page)+1):
@@ -141,22 +141,3 @@ def get_datas_book():
 categories = full_liens_category()
 pagination_lists = pagination()
 get_datas_book()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
