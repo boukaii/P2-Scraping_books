@@ -67,7 +67,8 @@ def full_informations_book(url_book):
         review_rating = soup.find_all("tr")[6].td.get_text()
         images = soup.find_all("img")[0]
         src = images.get('src')
-        image_url_entier = requests.compat.urljoin(url_book, src)
+        image_url_entier = urllib.parse.urljoin(url_book, src)
+
         img = requests.get(image_url_entier).content
 
         with open("images/" + categorie + " " + titles + ".jpg", 'wb') as f:
