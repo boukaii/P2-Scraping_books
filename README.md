@@ -8,6 +8,11 @@ La même chose devrait être faite pour l'image de chaque livre.
 
 # Installer :
 
+Dans l'invite de commande, accédez à l’emplacement dans lequel vous souhaitez stocker le dépôt. Vous pouvez le faire en tapant la commande suivante:
+
+`cd p2-scraping_books`
+
+
 
 ## Cloner le référentiel :
 
@@ -16,7 +21,8 @@ La même chose devrait être faite pour l'image de chaque livre.
 
 ## Créez l'environnement virtuel :
 
-`cd p2-scraping_books`
+
+Maintenant créez l'environnement virtuel en tapant cette commande :
 
 `python -m venv env`
 
@@ -31,6 +37,11 @@ Pour Windows:  `env\Scripts\activate`
 ## Installez les packages :
 
 `pip install -r requirements.txt`
+
+
+## Lancer le script :
+
+`Python scrap_all_categories.py`
 
 
 
