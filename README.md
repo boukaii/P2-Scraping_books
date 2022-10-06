@@ -6,17 +6,27 @@ La même chose devrait être faite pour l'image de chaque livre.
 
 
 
+
+
 # Installer :
 
-Dans l'invite de commande, accédez à l’emplacement dans lequel vous souhaitez stocker le dépôt. Vous pouvez le faire en tapant la commande suivante:
-
-`cd p2-scraping_books`
 
 
 
 ## Cloner le référentiel :
 
 `git clone https://github.com/boukaii/p2-scraping_books.git`
+
+
+
+
+
+
+## Déplacer vers le nouveau dossier
+
+`cd p2-scraping_books`
+
+
 
 
 ## Créez l'environnement virtuel :
