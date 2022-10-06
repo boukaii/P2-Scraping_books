@@ -1,4 +1,4 @@
-L'objectif de ce projet est d'extraire des informations. Nous devons récupérer diverses informations issues du site "http://books.toscrape.com/" qui vend des livres. Les informations à extraire sont entre autres : l'URL des différentes catégories de livres, les livres associés ainsi que les informations associées au livre. (images, prix, auteur, description....)
+L'objectif de ce projet est d'extraire des informations. Nous devons récupérer diverses informations issues du site     "http://books.toscrape.com/" qui vend des livres. Les informations à extraire sont entre autres : l'URL des différentes catégories de livres, les livres associés ainsi que les informations associées au livre. (images, prix, auteur, description....)
 Il faut également créer un fichier csv dans lequel il faudra inscrire les informations issues du site web. Puis également extraire et stocker les images des livres.
 
 
