@@ -39,6 +39,9 @@ Pour Windows:  `env\Scripts\activate`
 `pip install -r requirements.txt`
 
 
+# Script :
+
+
 ## Lancer le script :
 
 `Python scrap_all_categories.py`
@@ -52,6 +55,9 @@ Pour Windows:  `env\Scripts\activate`
 
 `scrap_all_categories.py :` 
   Ce script récupère toutes les informations et les images de tous les livres de toutes les catégories.
+
+
+# Configuration :
 
 
 
