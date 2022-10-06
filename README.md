@@ -1,9 +1,5 @@
-L'objectif du projet est de collecter des informations concernant les livres en vente sur le site  "http://books.toscrape.com/" et de les mettre dans un fichier CSV.
-
-
-
-La même chose devrait être faite pour l'image de chaque livre.
-
+L'objectif de ce projet est d'extraire des informations. Nous devons récupérer diverses informations issues du site "http://books.toscrape.com/" qui vend des livres. Les informations à extraire sont entre autres : l'URL des différentes catégories de livres, les livres associés ainsi que les informations associées au livre. (images, prix, auteur, description....)
+Il faut également créer un fichier csv dans lequel il faudra inscrire les informations issues du site web. Puis également extraire et stocker les images des livres.
 
 
 

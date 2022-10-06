@@ -68,7 +68,6 @@ def full_informations_book(url_book):
         images = soup.find_all("img")[0]
         src = images.get('src')
         image_url_entier = urllib.parse.urljoin(url_book, src)
-
         img = requests.get(image_url_entier).content
 
         with open("images/" + categorie + " " + titles + ".jpg", 'wb') as f:
@@ -115,9 +114,7 @@ def pagination():
 
 # 5/ fonction Boucle + CSV
 def get_datas_book():
-    # boucle sur toute les catégories pour UNE categorie
     for category in pagination_lists:
-        # variable qui récupere les liens des livres pour une catégorie
         list_urls, titre_categorie = full_liens_book(category)
         print()
         print(category)
@@ -129,7 +126,7 @@ def get_datas_book():
             with open(chemin_fichier, 'w', encoding="utf-8", newline='') as csv_file:
                 writer = csv.writer(csv_file, delimiter=",")
                 writer.writerow(en_tete)
-        # boucle sur tout les liens des livres pour UN livre
+        # boucle sur tout les liens des livres
         for url in list_urls:
             list_informations = full_informations_book(url)
             print(list_informations)
