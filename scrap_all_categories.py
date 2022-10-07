@@ -20,7 +20,7 @@ def full_liens_category():
         for b in partie:
             if b["href"] != "catalogue/category/books_1/index.html":
                 lien_relatif = b["href"]
-                #additioner url et lien_relatif afin d'obtenir un lien URL complet
+                # additioner url et lien_relatif afin d'obtenir un lien URL complet
                 lien_entier = urllib.parse.urljoin(url, lien_relatif)
                 categories.append(lien_entier)
 
@@ -64,7 +64,8 @@ def full_informations_book(url_book):
         product_descriptions = product_description.replace(":", " ").replace("*", " ").replace("?", " ") \
             .replace('\"', " ").replace(",", " ").replace("/", " ").replace(".", " ").replace("-", " ")
         categorie = soup.find_all("a")[3].get_text()
-        review_rating = soup.find_all("tr")[6].td.get_text()
+        # review_rating = soup.find_all("tr")[6].td.get_text()
+        review_rating = soup.select_one('.star-rating').attrs['class'][1]
         images = soup.find_all("img")[0]
         src = images.get('src')
         image_url_entier = urllib.parse.urljoin(url_book, src)
@@ -100,7 +101,7 @@ def pagination():
         # condition: SI il y a le "text" page sur la page
         if soup.find("li", class_="current"):
             next_page = soup.find("li", class_="current").text.strip()
-            # variable qui récupère le dernier élèment de la chaine de character qui permet de savoir le nb de pages total
+            # variable qui récupère le dernier élèment de la chaine de caractère qui permet de savoir le nb de pages total
             nb_page = next_page[len(next_page)-1]
             # création des liens pour chaque page de la catégorie en cours(catégorie avec pagination)
             for i in range(1, int(nb_page)+1):
