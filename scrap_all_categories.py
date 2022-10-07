@@ -64,7 +64,6 @@ def full_informations_book(url_book):
         product_descriptions = product_description.replace(":", " ").replace("*", " ").replace("?", " ") \
             .replace('\"', " ").replace(",", " ").replace("/", " ").replace(".", " ").replace("-", " ")
         categorie = soup.find_all("a")[3].get_text()
-        # review_rating = soup.find_all("tr")[6].td.get_text()
         review_rating = soup.select_one('.star-rating').attrs['class'][1]
         images = soup.find_all("img")[0]
         src = images.get('src')
