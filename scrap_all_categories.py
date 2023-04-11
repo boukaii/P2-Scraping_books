@@ -44,6 +44,10 @@ def full_liens_book(url_categorie):
     return list_urls, titre_categorie
 
 
+
+
+
+
 # 3/ fonction avec toutes les informations + csv images
 def full_informations_book(url_book):
     list_informations = []
